@@ -1,0 +1,33 @@
+---
+# vars file
+# src https://github.com/89luca89/ansible-fedora-minimal/blob/master/roles/fedora_minimal/defaults/main.yml
+
+base_packages:
+  - "@Development Tools"
+  - "@Development Libraries"
+  - azure-cli
+  - ansible
+  - bison
+  - libappindicator-gtk3
+  - liberation-fonts
+  - kernel-devel
+  - kernel-headers
+  - docker
+  - clang
+  - gcc
+  - gcc-c++
+  - slack
+  - pass
+  - snapd
+  - code
+  - tmux
+  - vim
+  - krb5-workstation
+  - libgnome
+  - gimp
+  - sshuttle
+  - lm_sensors
+  - terraform
+  - vlc
+  - rsync
+  - kernel-headers

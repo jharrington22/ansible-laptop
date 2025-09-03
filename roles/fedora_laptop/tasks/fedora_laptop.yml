@@ -1,0 +1,19 @@
+---
+# Install required packages
+#
+
+- name: Install the rpmfusion and fonts repo packages
+  dnf:
+    state: present
+    disable_gpg_check: yes
+    name:
+      - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts.distribution_version }}.noarch.rpm
+      - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts.distribution_version }}.noarch.rpm
+  become: yes
+  tags: rpmfusion
+
+- name: Install base packages
+  dnf:
+    name: "{{ base_packages }}"
+  become: yes
+  tags: base_packages

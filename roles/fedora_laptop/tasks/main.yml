@@ -1,0 +1,14 @@
+---
+# Create base laptop configuration 
+#
+
+- name: Update packages
+  dnf:
+    name: "*"
+    state: latest
+  become: yes
+  tags: base_distro
+
+- name: Build up base laptop
+  import_tasks: fedora_laptop.yml
+  tags: base_distro
