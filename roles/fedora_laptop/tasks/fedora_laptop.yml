@@ -15,5 +15,6 @@
 - name: Install base packages
   dnf:
     name: "{{ base_packages }}"
+    state: present
   become: yes
   tags: base_packages

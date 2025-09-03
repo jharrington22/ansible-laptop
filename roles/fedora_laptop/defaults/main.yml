@@ -16,10 +16,8 @@ base_packages:
   - clang
   - gcc
   - gcc-c++
-  - slack
   - pass
   - snapd
-  - code
   - tmux
   - vim
   - krb5-workstation
@@ -27,7 +25,6 @@ base_packages:
   - gimp
   - sshuttle
   - lm_sensors
-  - terraform
   - vlc
   - rsync
   - kernel-headers
