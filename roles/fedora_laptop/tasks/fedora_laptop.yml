@@ -2,7 +2,7 @@
 # Install required packages
 #
 
-- name: Install the rpmfusion and fonts repo packages
+- name: Install the rpmfusion
   dnf:
     state: present
     disable_gpg_check: yes
@@ -16,5 +16,13 @@
   dnf:
     name: "{{ base_packages }}"
     state: present
+  become: yes
+  tags: base_packages
+
+- name: Install codecs packages
+  dnf:
+    name: "{{ codecs_packages }}"
+    state: present
+    allowerasing: true
   become: yes
   tags: base_packages

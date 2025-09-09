@@ -8,6 +8,7 @@ base_packages:
   - azure-cli
   - ansible
   - bison
+  - evolution
   - libappindicator-gtk3
   - liberation-fonts
   - kernel-devel
@@ -20,6 +21,7 @@ base_packages:
   - snapd
   - tmux
   - vim
+  - virt-manager
   - krb5-workstation
   - libgnome
   - gimp
@@ -28,3 +30,19 @@ base_packages:
   - vlc
   - rsync
   - kernel-headers
+
+codecs_packages:
+  - ffmpeg
+  - gstreamer1-libav
+  - gstreamer1-plugins-base
+  - gstreamer1-plugins-base-tools
+  - gstreamer1-plugins-good
+  - gstreamer1-plugins-good-extras
+  - gstreamer1-plugins-ugly
+  - gstreamer1-plugins-ugly-free
+  - gstreamer1-svt-vp9
+  - libva-devel
+  - libva-utils
+  - libva-vdpau-driver
+  - libvdpau-va-gl
+

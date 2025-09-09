@@ -12,3 +12,7 @@
 - name: Build up base laptop
   import_tasks: fedora_laptop.yml
   tags: base_distro
+
+- name: External packages
+  import_tasks: external_packages.yml
+  tags: base_distro

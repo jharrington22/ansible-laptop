@@ -1,0 +1,11 @@
+---
+# Packages not available in standard/fusion repos
+#
+
+- name: Install slack 
+  become: yes
+  ansible.builtin.dnf:
+    name: https://downloads.slack-edge.com/desktop-releases/linux/x64/4.45.69/slack-4.45.69-0.1.el8.x86_64.rpm
+    state: present
+    disable_gpg_check: yes
+    download_dir: /tmp/
