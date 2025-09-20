@@ -1,0 +1,22 @@
+# Flatpak applications
+#
+---
+- name: Add the Fedora Flatpak remote from registry.fedoraproject.org
+  community.general.flatpak_remote:
+    name: fedora
+    flatpakrepo_url: "https://registry.fedoraproject.org"
+    state: present
+    method: system
+  tags: gnome-extensions
+
+- name: Install a Flatpak application
+  community.general.flatpak:
+    name: org.gnome.Extensions
+    state: present
+    remote: fedora
+  tags: gnome-extensions
+
+#- name: Install TopHat Extensions
+#  ansible.builtin.shell:
+#    cmd: gnome-extensions install tophat
+#  tags: gnome-extensions

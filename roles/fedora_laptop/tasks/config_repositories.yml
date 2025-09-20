@@ -1,0 +1,6 @@
+# Checkout some repositories with config
+---
+- name: Setup pass
+  ansible.builtin.git:
+    repo: 'git@github.com:jharrington22/password-store'
+    dest: /home/jamesh/.password-store

@@ -1,0 +1,6 @@
+- name: Add repository VS Code Repostiory
+  ansible.builtin.yum_repository:
+    name: vscode
+    gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+    description: Visual
+    baseurl: https://packages.microsoft.com/yumrepos/vscode

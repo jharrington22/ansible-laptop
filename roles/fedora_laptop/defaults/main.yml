@@ -48,4 +48,5 @@ codecs_packages:
   - libva-utils
   - libva-vdpau-driver
   - libvdpau-va-gl
+  - libavcodec-freeworld
 
