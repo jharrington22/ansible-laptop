@@ -1,0 +1,82 @@
+# "If you don’t want Google's repository, do
+# `sudo touch /etc/default/google-chrome` before installing the package."
+#
+- name: RedHat - Disable creation of "google-chrome.repo" by package scripts
+  copy:
+    dest: /etc/default/google-chrome
+    content: ''
+  become: yes
+
+# This file deliberately contains no configuration.
+# The real repo is installed as "local-google-chrome.repo".
+#
+# The "empty" file replaces any google-chrome.repo e.g. created by
+# fedora-workstation-repositories, which might potentially override
+# our config.
+#
+# /etc/cron.daily/google-chrome will not try to "fix" this file, since
+# it only contains comments.  (It interprets this as being disabled).
+#
+- name: RedHat - Create empty "google-chrome.repo"
+  template:
+    src: google-chrome-disabled.repo.j2
+    dest: /etc/yum.repos.d/google-chrome.repo
+  become: yes
+
+- name: RedHat - Simulate install of Google Chrome
+  package:
+    name: google-chrome-stable
+    state: present
+  check_mode: yes
+  ignore_errors: yes
+  register: simulate_google_chrome
+  become: yes
+
+# For the initial install only, we can make sure dnf doesn't accept new
+# gpgkeys authenticated by *any* of the Web's certificate authorities.
+
+- name: RedHat - Create "local-google-chrome.repo" for installation
+  become: yes
+  template:
+    src: google-chrome-localgpg.repo.j2
+    dest: /etc/yum.repos.d/local-google-chrome.repo
+  when: simulate_google_chrome.failed or
+        simulate_google_chrome.changed
+
+- name: RedHat - Install Google Chrome
+  package:
+    name: google-chrome-stable
+    state: present
+  become: yes
+
+
+- name: RedHat - Create "local-google-chrome.repo" for updates
+  become: yes
+  template:
+    src: google-chrome-autogpg.repo.j2
+    dest: /etc/yum.repos.d/local-google-chrome.repo
+  register: repo
+
+# This test may be slow, only bother when changed.
+# (In which case, the next use of dnf would probably have had to do this anyway).
+
+- name: RedHat - Test "yum check-update"
+  become: yes
+  when: repo.changed
+  command: 'yum --disablerepo="*" --enablerepo=local-google-chrome check-update'
+  register: yum_check_update
+  # exit status is 0 on success, 100 if updates available (otherwise 100)
+  failed_when: yum_check_update.rc not in [0, 100]
+
+# Consistency check for existing installs.  Have Google done something
+# "unexpected" that has left a stale, presumably insecure package?
+
+- name: RedHat - Test package is available in repo (test requires dnf)
+  become: yes
+  shell: |
+    dnf --disablerepo="*" --enablerepo=local-google-chrome \
+        repoquery google-chrome-stable \
+    | grep google-chrome-stable
+  check_mode: no
+  changed_when: False
+  when: ansible_pkg_mgr == 'dnf'

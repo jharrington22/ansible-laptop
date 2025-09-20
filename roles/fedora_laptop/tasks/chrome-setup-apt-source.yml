@@ -1,0 +1,43 @@
+- name: Debian - Import signing key
+  copy:
+    remote_src: yes
+    src: /home/jamesh/ansible-managed/google-chrome/linux_signing_key.pub
+    dest: /etc/apt/trusted.gpg.d/google.asc
+  register: key
+
+# Use the standard google-chrome.list.
+#
+# Note: As per the comment inside this file, if you make certain types of
+# changes to it, they will automatically be reverted.  This is due to a
+# cron job provided by Google.
+
+- name: Debian - Add Google Chrome package source
+  copy:
+    src: google-chrome.list
+    dest: /etc/apt/sources.list.d/
+  register: source
+
+# This test is slow, only bother when changed.
+# (In which case, the next use of apt would have had to do it anyway).
+- name: Debian - Test "apt-get update"
+  command: apt-get update
+  when: key.changed or source.changed
+  register: update
+
+- name: Debian - show warnings from apt-get update
+  debug:
+    msg: "{{ update.stderr | d('') }}"
+  when: update.stderr | d('')
+
+# Consistency check for existing installs.  Have Google done something
+# "unexpected" that has left a stale, presumably insecure package?
+
+- name: Debian - Test package is available in repo
+  command: apt-get --print-uris download google-chrome-stable
+  check_mode: no
+  changed_when: False
+
+- name: Debian - Install Google Chrome
+  package:
+    name: google-chrome-stable
+    state: present
