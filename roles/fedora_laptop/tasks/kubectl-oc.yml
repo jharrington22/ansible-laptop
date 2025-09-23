@@ -1,0 +1,26 @@
+- name: Download oc tarball
+  ansible.builtin.get_url:
+    url: "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz"
+    dest: "/tmp/openshift-client-linux.tar.gz"
+    mode: '0644'
+
+- name: Ensure destination directory exists
+  ansible.builtin.file:
+    path: /tmp/openshift-client-linux
+    state: directory
+    mode: '0755'
+
+- name: Unarchive the OpenShift tarball on the remote host
+  ansible.builtin.unarchive:
+    src: "/tmp/openshift-client-linux.tar.gz"
+    dest: "/tmp/openshift-client-linux"
+
+- name: Copy only oc and kubectl files from the OpenShift archive
+  become: yes
+  ansible.builtin.copy:
+    src: "/tmp/openshift-client-linux/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: '0755'
+  loop:
+    - "oc"
+    - "kubectl"

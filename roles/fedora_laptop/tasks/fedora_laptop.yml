@@ -26,3 +26,7 @@
     allowerasing: true
   become: yes
   tags: base_packages
+
+- name: Install Kubectl and oc
+  import_tasks: kubectl-oc.yml
+  tags: base_distro
