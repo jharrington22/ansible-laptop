@@ -5,6 +5,9 @@
 # repo baseurl, not including the "$basearch" at the end.
 google_chrome__yum_baseurl: "https://dl.google.com/linux/chrome/rpm/stable/"
 
+# kubelogin version
+kubelogin_version: "v0.2.10"
+
 base_packages:
   - "@Development Tools"
   - "@Development Libraries"
@@ -12,6 +15,7 @@ base_packages:
   - ansible
   - bison
   - evolution
+  - helm
   - libappindicator-gtk3
   - liberation-fonts
   - kernel-devel
@@ -33,6 +37,8 @@ base_packages:
   - vlc
   - rsync
   - kernel-headers
+# Required for multi arch builds
+  - qemu-user-static
 
 codecs_packages:
   - ffmpeg

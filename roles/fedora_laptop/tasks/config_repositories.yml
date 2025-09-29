@@ -4,3 +4,10 @@
   ansible.builtin.git:
     repo: 'git@github.com:jharrington22/password-store'
     dest: /home/jamesh/.password-store
+    update: false
+
+- name: Unifi Repo
+  ansible.builtin.git:
+    repo: 'git@github.com:jharrington22/unifi-controller'
+    dest: /home/jamesh/Documents/repos/unifi-controller
+    update: false

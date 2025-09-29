@@ -16,3 +16,7 @@
 - name: External packages
   import_tasks: external_packages.yml
   tags: base_distro
+
+- name: Setup repos
+  import_tasks: config_repositories.yml
+  tags: base_distro
