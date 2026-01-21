@@ -8,6 +8,18 @@ google_chrome__yum_baseurl: "https://dl.google.com/linux/chrome/rpm/stable/"
 # kubelogin version
 kubelogin_version: "v0.2.10"
 
+# jira CLI version
+jira_cli_version: "1.7.0"
+
+# osdctl CLI version
+osdctl_version: "0.49.0"
+
+# ocm CLI version
+ocm_cli_version: "1.0.8"
+
+# backplane CLI version
+backplane_cli_version: "0.6.2"
+
 base_packages:
   - "@Development Tools"
   - "@Development Libraries"

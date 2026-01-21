@@ -2,13 +2,35 @@
 # Packages not available in standard/fusion repos
 #
 
-- name: Install slack 
+- name: Install slack
   become: yes
   ansible.builtin.dnf:
     name: https://downloads.slack-edge.com/desktop-releases/linux/x64/4.45.69/slack-4.45.69-0.1.el8.x86_64.rpm
     state: present
     disable_gpg_check: yes
     download_dir: /tmp/
+  tags:
+    - applications
+    - slack
+    - packages
+
+- name: Check that kubelogin exists
+  stat:
+    path: /usr/local/bin/kubelogin
+  register: stat_result
+  tags:
+    - cloud-tools
+    - azure
+    - kubernetes
+
+- name: Check azure CLI version
+  shell: "kubelogin --version | grep git\ hash | sed -e 's/.*\\(v[^/]*\\).*/\\1/'"
+  register: kubelogin_bin_version
+  when: stat_result.stat.exists
+  tags:
+    - cloud-tools
+    - azure
+    - kubernetes
 
 - name: Download kubelogin tarball
   ansible.builtin.get_url:
@@ -48,3 +70,66 @@
     mode: '0755'
   loop:
     - "kubelogin"
+  tags:
+    - cloud-tools
+    - azure
+    - kubernetes
+
+- name: Install dropbox
+  become: yes
+  ansible.builtin.dnf:
+    name: https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-2025.05.20-1.fc42.x86_64.rpm
+    state: present
+    disable_gpg_check: yes
+    download_dir: /tmp/
+  tags:
+    - applications
+    - dropbox
+    - packages
+
+- name: Check if jira is installed
+  command: jira --version
+  check_mode: false
+  register: jira_installed
+  failed_when: false
+  changed_when: false
+  tags:
+    - jira
+
+- name: Check jira CLI version
+  shell: "jira --version | grep git\ hash | sed -e 's/.*\\(v[^/]*\\).*/\\1/'"
+  register: jira_version
+  failed_when: false
+  changed_when: false
+  when: jira_installed.rc == 0
+  tags:
+    - jira
+
+- name: Download jira tarball
+  ansible.builtin.get_url:
+    url: https://github.com/ankitpokhrel/jira-cli/releases/download/v{{ jira_cli_version }}/jira_{{ jira_cli_version }}_linux_x86_64.tar.gz
+    dest: "/tmp/jira-cli-linux-amd64.tar.gz"
+    mode: '0644'
+  when: jira_installed.rc != 0 or (jira_version.stdout is defined and jira_version.stdout != jira_cli_version)
+  tags:
+    - jira
+
+- name: Unarchive jira
+  ansible.builtin.unarchive:
+    src: /tmp/jira-cli-linux-amd64.tar.gz
+    dest: /tmp/
+  when: jira_installed.rc != 0 or (jira_version.stdout is defined and jira_version.stdout != jira_cli_version)
+  tags:
+    - jira
+
+- name: Copy jira cmd from archive
+  become: yes
+  ansible.builtin.copy:
+    src: "/tmp/jira_{{ jira_cli_version }}_linux_x86_64//bin/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: '0755'
+  loop:
+    - "jira"
+  when: jira_installed.rc != 0 or (jira_version.stdout is defined and jira_version.stdout != jira_cli_version)
+  tags:
+    - jira
