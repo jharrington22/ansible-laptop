@@ -1,0 +1,38 @@
+- name: Install nodejs
+  package:
+    name:
+      - nodejs
+    state: present
+  become: yes
+  tags:
+    - dev-tools
+    - nodejs
+    - packages
+
+- name: Ensure nodejs directory exists
+  ansible.builtin.file:
+    path: '{{ ansible_env.HOME }}/.npm-global'
+    state: directory
+    mode: '0755'
+  tags:
+    - dev-tools
+    - nodejs
+    - config
+
+- name: Configure nodejs
+  shell: |
+    npm config set prefix '{{ ansible_env.HOME }}/.npm-global'
+  tags:
+    - dev-tools
+    - nodejs
+    - config
+
+- name: Install Claude CLI globally
+  community.general.npm:
+    name: "@anthropic-ai/claude-code"
+    global: yes
+    state: present
+  tags:
+    - dev-tools
+    - nodejs
+    - packages
