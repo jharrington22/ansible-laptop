@@ -14,3 +14,15 @@
     repo: 'git@github.com:jharrington22/unifi-controller'
     dest: /home/jamesh/Documents/repos/unifi-controller
     update: false
+  tags:
+    - repositories
+    - config
+  
+- name: Setup dot files
+  ansible.builtin.git:
+    repo: 'git@github.com:jharrington22/dot-files'
+    dest: /home/jamesh/Documents/repos/dot-files
+    update: false
+  tags:
+    - repositories
+    - config
