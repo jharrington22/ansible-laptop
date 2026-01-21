@@ -37,6 +37,8 @@ base_packages:
   - gcc
   - gcc-c++
   - pass
+  - podman
+  - podman-compose
   - snapd
   - tmux
   - vim
@@ -44,6 +46,7 @@ base_packages:
   - krb5-workstation
   - libgnome
   - gimp
+  - strace
   - sshuttle
   - lm_sensors
   - vlc
