@@ -1,0 +1,8 @@
+[core]
+only_show_errors = yes
+
+[cloud]
+name = AzureCloud
+
+[bicep]
+use_binary_from_path = false

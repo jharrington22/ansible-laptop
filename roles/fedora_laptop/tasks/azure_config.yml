@@ -1,0 +1,11 @@
+- name: Set azure CLI configuration
+  copy:
+    src: azure_cli_config
+    dest: /home/jamesh/.azure/config
+    owner: jamesh
+    group: jamesh
+    mode: '1755'
+  tags:
+    - cloud-tools
+    - azure
+    - config
