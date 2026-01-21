@@ -1,5 +1,5 @@
 ---
-# Create base laptop configuration 
+# Create base laptop configuration
 #
 
 - name: Update packages

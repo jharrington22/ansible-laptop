@@ -1,0 +1,87 @@
+- name: Download osdctl tarball
+  ansible.builtin.get_url:
+    url: "https://github.com/openshift/osdctl/releases/download/v{{ osdctl_version }}/osdctl_{{ osdctl_version }}_Linux_x86_64.tar.gz"
+    dest: "/tmp/osdctl_{{ osdctl_version }}_Linux_x86_64.tar.gz"
+    mode: '0644'
+  tags:
+    - cloud-tools
+    - kubernetes
+    - redhat
+
+- name: Unarchive the osdctl tarball on the remote host
+  ansible.builtin.unarchive:
+    src: "/tmp/osdctl_{{ osdctl_version }}_Linux_x86_64.tar.gz"
+    dest: "/tmp/"
+  tags:
+    - cloud-tools
+    - kubernetes
+    - redhat
+
+- name: Copy osdctl from the archive
+  become: yes
+  ansible.builtin.copy:
+    src: "/tmp/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: '0755'
+  loop:
+    - "osdctl"
+  tags:
+    - cloud-tools
+    - kubernetes
+    - redhat
+
+- name: Download OCM CLI
+  ansible.builtin.get_url:
+    url: "https://github.com/openshift-online/ocm-cli/releases/download/v{{ ocm_cli_version }}/ocm-linux-amd64"
+    dest: "/tmp/ocm-linux-amd64"
+    mode: '0644'
+  tags:
+    - cloud-tools
+    - kubernetes
+    - redhat
+
+- name: Copy osdctl from the archive
+  become: yes
+  ansible.builtin.copy:
+    src: "/tmp/{{ item }}"
+    dest: "/usr/local/bin/ocm"
+    mode: '0755'
+  loop:
+    - "ocm-linux-amd64"
+  tags:
+    - cloud-tools
+    - kubernetes
+    - redhat
+
+- name: Download OCM CLI
+  ansible.builtin.get_url:
+    url: "https://github.com/openshift/backplane-cli/releases/download/v{{ backplane_cli_version }}/ocm-backplane_{{ backplane_cli_version }}_Linux_x86_64.tar.gz"
+    dest: "/tmp/ocm-backplane_{{ backplane_cli_version }}_Linux_x86_64.tar.gz"
+    mode: '0644'
+  tags:
+    - cloud-tools
+    - kubernetes
+    - redhat
+
+- name: Unarchive the osdctl tarball on the remote host
+  ansible.builtin.unarchive:
+    src: "/tmp/ocm-backplane_{{ backplane_cli_version }}_Linux_x86_64.tar.gz"
+    dest: "/tmp/"
+  tags:
+    - cloud-tools
+    - kubernetes
+    - redhat
+
+- name: Copy osdctl from the archive
+  become: yes
+  ansible.builtin.copy:
+    src: "/tmp/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: '0755'
+  loop:
+    - "ocm-backplane"
+  tags:
+    - cloud-tools
+    - kubernetes
+    - redhat
+  
