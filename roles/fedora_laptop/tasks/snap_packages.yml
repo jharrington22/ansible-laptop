@@ -5,3 +5,8 @@
   community.general.snap:
     name: spotify
     channel: latest/stable
+  tags:
+    - applications
+    - snap
+    - spotify
+    - packages

@@ -5,6 +5,9 @@
     repo: 'git@github.com:jharrington22/password-store'
     dest: /home/jamesh/.password-store
     update: false
+  tags:
+    - repositories
+    - config
 
 - name: Unifi Repo
   ansible.builtin.git:

@@ -4,3 +4,17 @@
     gpgkey: https://packages.microsoft.com/keys/microsoft.asc
     description: Visual
     baseurl: https://packages.microsoft.com/yumrepos/vscode
+  tags:
+    - dev-tools
+    - vscode
+    - repos
+
+- name: Update VS Code
+  become: yes
+  ansible.builtin.dnf:
+    name: code
+    state: latest
+  tags:
+    - applications
+    - vscode
+    - packages

@@ -10,14 +10,19 @@
       - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts.distribution_version }}.noarch.rpm
       - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts.distribution_version }}.noarch.rpm
   become: yes
-  tags: rpmfusion
+  tags:
+    - base
+    - repos
+    - packages
 
 - name: Install base packages
   dnf:
     name: "{{ base_packages }}"
     state: present
   become: yes
-  tags: base_packages
+  tags:
+    - base
+    - packages
 
 - name: Install codecs packages
   dnf:
@@ -25,8 +30,60 @@
     state: present
     allowerasing: true
   become: yes
-  tags: base_packages
+  tags:
+    - base
+    - packages
 
 - name: Install Kubectl and oc
   import_tasks: kubectl-oc.yml
-  tags: base_distro
+  tags:
+    - cloud-tools
+    - kubernetes
+
+- name: Configure Azure CLI
+  import_tasks: azure_config.yml
+  tags:
+    - cloud-tools
+    - azure
+    - config
+
+- name: Configure gcloud CLI
+  import_tasks: gcloud-repo.yml
+  tags:
+    - cloud-tools
+    - gcloud
+
+- name: Configure nodejs
+  import_tasks: nodejs-claude.yml
+  tags:
+    - dev-tools
+    - nodejs
+
+- name: Configure flatpak applications
+  import_tasks: flatpak_applications.yml
+  tags:
+    - dev-tools
+    - flatpak
+
+- name: Configure redhat applications
+  import_tasks: redhat.yml
+  tags:
+    - cloud-tools
+    - redhat
+
+- name: Configure gcloud CLI
+  import_tasks: gh-cli-repo.yml
+  tags:
+    - cloud-tools
+    - github
+
+- name: Configure yum repositories
+  import_tasks: yum_repositories.yml
+  tags:
+    - dnf
+
+- name: Configure GVM and Go
+  import_tasks: gvm_install.yml
+  tags:
+    - golang
+    - dev-tools

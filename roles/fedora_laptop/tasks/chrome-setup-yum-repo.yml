@@ -6,6 +6,10 @@
     dest: /etc/default/google-chrome
     content: ''
   become: yes
+  tags:
+    - applications
+    - chrome
+    - config
 
 # This file deliberately contains no configuration.
 # The real repo is installed as "local-google-chrome.repo".
@@ -22,6 +26,10 @@
     src: google-chrome-disabled.repo.j2
     dest: /etc/yum.repos.d/google-chrome.repo
   become: yes
+  tags:
+    - applications
+    - chrome
+    - repos
 
 - name: RedHat - Simulate install of Google Chrome
   package:
@@ -31,6 +39,10 @@
   ignore_errors: yes
   register: simulate_google_chrome
   become: yes
+  tags:
+    - applications
+    - chrome
+    - packages
 
 # For the initial install only, we can make sure dnf doesn't accept new
 # gpgkeys authenticated by *any* of the Web's certificate authorities.
@@ -42,12 +54,20 @@
     dest: /etc/yum.repos.d/local-google-chrome.repo
   when: simulate_google_chrome.failed or
         simulate_google_chrome.changed
+  tags:
+    - applications
+    - chrome
+    - repos
 
 - name: RedHat - Install Google Chrome
   package:
     name: google-chrome-stable
     state: present
   become: yes
+  tags:
+    - applications
+    - chrome
+    - packages
 
 
 - name: RedHat - Create "local-google-chrome.repo" for updates
@@ -56,6 +76,10 @@
     src: google-chrome-autogpg.repo.j2
     dest: /etc/yum.repos.d/local-google-chrome.repo
   register: repo
+  tags:
+    - applications
+    - chrome
+    - repos
 
 # This test may be slow, only bother when changed.
 # (In which case, the next use of dnf would probably have had to do this anyway).
@@ -67,6 +91,10 @@
   register: yum_check_update
   # exit status is 0 on success, 100 if updates available (otherwise 100)
   failed_when: yum_check_update.rc not in [0, 100]
+  tags:
+    - applications
+    - chrome
+    - repos
 
 # Consistency check for existing installs.  Have Google done something
 # "unexpected" that has left a stale, presumably insecure package?
@@ -80,3 +108,7 @@
   check_mode: no
   changed_when: False
   when: ansible_pkg_mgr == 'dnf'
+  tags:
+    - applications
+    - chrome
+    - repos

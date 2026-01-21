@@ -7,16 +7,24 @@
     name: "*"
     state: latest
   become: yes
-  tags: base_distro
+  tags:
+    - base
+    - packages
 
 - name: Build up base laptop
   import_tasks: fedora_laptop.yml
-  tags: base_distro
+  tags:
+    - base
+    - packages
 
 - name: External packages
   import_tasks: external_packages.yml
-  tags: base_distro
+  tags:
+    - applications
+    - packages
 
 - name: Setup repos
   import_tasks: config_repositories.yml
-  tags: base_distro
+  tags:
+    - repositories
+    - config

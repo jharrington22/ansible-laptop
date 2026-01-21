@@ -30,6 +30,10 @@
   run_once: yes
   check_mode: no
   changed_when: False
+  tags:
+    - applications
+    - chrome
+    - config
 
 - name: Copy Google signing keys
   copy:
@@ -39,6 +43,10 @@
     - cache/linux_signing_key.pub
     - key_fingerprints.txt
   register: public_key
+  tags:
+    - applications
+    - chrome
+    - config
 
 - name: Copy script for checking master key fingerprints
   copy:
@@ -49,6 +57,10 @@
     mode: a+x
   with_items:
     - keyfile_to_fingerprints.sh
+  tags:
+    - applications
+    - chrome
+    - config
 
 # The script requires GPG.
 # GPG also seemed to be needed for `apt-key add`.
@@ -62,6 +74,10 @@
     name: gnupg2
     state: present
   become: yes
+  tags:
+    - applications
+    - chrome
+    - packages
 
 # This role adds keys with specific fingerprints.
 # (This is a one-off check only.  See README)
@@ -74,6 +90,10 @@
     chdir: /home/jamesh/ansible-managed/google-chrome/
   changed_when: False
   check_mode: False
+  tags:
+    - applications
+    - chrome
+    - config
 
 - name: Supported OS - must use apt or dnf (or possibly yum)
   assert:
@@ -81,9 +101,18 @@
     msg: >
       This role only supports an OS based on "Debian" or "RedHat".
       See also "ansible -m setup ... | grep ansible_os_family".
+  tags:
+    - applications
+    - chrome
 
 - import_tasks: chrome-setup-apt-source.yml
   when: ansible_pkg_mgr == 'apt'
+  tags:
+    - applications
+    - chrome
 
 - import_tasks: chrome-setup-yum-repo.yml
   when: ansible_pkg_mgr in ['yum', 'dnf', 'dnf5']
+  tags:
+    - applications
+    - chrome

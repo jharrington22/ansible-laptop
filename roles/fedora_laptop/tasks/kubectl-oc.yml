@@ -3,17 +3,26 @@
     url: "https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz"
     dest: "/tmp/openshift-client-linux.tar.gz"
     mode: '0644'
+  tags:
+    - cloud-tools
+    - kubernetes
 
 - name: Ensure destination directory exists
   ansible.builtin.file:
     path: /tmp/openshift-client-linux
     state: directory
     mode: '0755'
+  tags:
+    - cloud-tools
+    - kubernetes
 
 - name: Unarchive the OpenShift tarball on the remote host
   ansible.builtin.unarchive:
     src: "/tmp/openshift-client-linux.tar.gz"
     dest: "/tmp/openshift-client-linux"
+  tags:
+    - cloud-tools
+    - kubernetes
 
 - name: Copy only oc and kubectl files from the OpenShift archive
   become: yes
@@ -24,3 +33,6 @@
   loop:
     - "oc"
     - "kubectl"
+  tags:
+    - cloud-tools
+    - kubernetes

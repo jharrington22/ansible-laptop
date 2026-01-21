@@ -5,4 +5,5 @@
 - hosts: all
   gather_facts: True
   roles:
-    - fedora_laptop
+    - role: fedora_laptop
+      tags: fedora_laptop

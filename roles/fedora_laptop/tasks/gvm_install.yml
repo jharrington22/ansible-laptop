@@ -3,21 +3,28 @@
     url: https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer
     dest: /tmp/gvm-installer.sh
     mode: '0740'
-  tags: gvm
+  tags:
+    - dev-tools
+    - golang
 
 - name: Run GVM install script
   ansible.builtin.shell:
     cmd: ./gvm-installer.sh
     chdir: /tmp/
     creates: /home/jamesh/.gvm
-  tags: gvm
+  tags:
+    - dev-tools
+    - golang
 
 - name: Ensure a base golang exists
   dnf:
     name: golang
     state: present
   become: yes
-  tags: gvm
+  tags:
+    - dev-tools
+    - golang
+    - packages
 
 - name: Install Go 1.24.7
   ansible.builtin.shell:
