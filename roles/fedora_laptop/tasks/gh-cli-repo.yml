@@ -1,0 +1,23 @@
+- name: Configure gh cli repo
+  become: yes
+  copy:
+    src: gh-cli.repo
+    dest: /etc/yum.repos.d/gh-cli.repo
+    owner: root
+    group: root
+    mode: '1644'  
+  tags:
+    - cloud-tools
+    - github
+    - repos
+
+- name: Install GitHub CLI
+  package:
+    name:
+      - gh
+    state: present
+  become: yes
+  tags:
+    - cloud-tools
+    - github
+    - packages

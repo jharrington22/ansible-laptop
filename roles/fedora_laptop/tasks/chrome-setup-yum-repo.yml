@@ -1,4 +1,4 @@
-# "If you don’t want Google's repository, do
+# "If you don't want Google's repository, do
 # `sudo touch /etc/default/google-chrome` before installing the package."
 #
 - name: RedHat - Disable creation of "google-chrome.repo" by package scripts

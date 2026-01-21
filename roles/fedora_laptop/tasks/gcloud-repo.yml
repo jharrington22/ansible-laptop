@@ -1,0 +1,24 @@
+- name: Configure gcloud repo
+  become: yes
+  copy:
+    src: gcloud.repo
+    dest: /etc/yum.repos.d/google-cloud-sdk.repo
+    owner: root
+    group: root
+    mode: '1644'
+  tags:
+    - cloud-tools
+    - gcloud
+    - repos
+
+- name: Install Google Cloud CLI
+  package:
+    name:
+      - libxcrypt-compat.x86_64
+      - google-cloud-cli
+    state: present
+  become: yes
+  tags:
+    - cloud-tools
+    - gcloud
+    - packages
