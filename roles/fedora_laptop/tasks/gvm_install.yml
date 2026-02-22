@@ -28,7 +28,7 @@
 
 - name: Install Go 1.24.7
   ansible.builtin.shell:
-    cmd: gvm install go1.24.7
+    cmd: . /home/jamesh/.bashrc && gvm install go1.24.7
     creates: /home/jamesh/.gvm/gos/go1.24.7
   tags:
     - dev-tools
@@ -36,7 +36,7 @@
 
 - name: Install Go 1.25.5
   ansible.builtin.shell:
-    cmd: gvm install go1.25.5
+    cmd: . /home/jamesh/.bashrc && gvm install go1.25.5
     creates: /home/jamesh/.gvm/gos/go1.25.5
   tags:
     - dev-tools

@@ -1,3 +1,9 @@
+- name: Ensure azure CLI dir exists
+  ansible.builtin.file:
+    path: /home/jamesh/.azure
+    state: directory
+    mode: '0755'
+
 - name: Set azure CLI configuration
   copy:
     src: azure_cli_config
