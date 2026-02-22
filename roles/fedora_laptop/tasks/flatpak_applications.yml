@@ -7,16 +7,51 @@
     flatpakrepo_url: "https://registry.fedoraproject.org"
     state: present
     method: system
-  tags: gnome-extensions
+  tags:
+    - applications
+    - flatpak
+    - gnome
+    - repos
+
+- name: Add flathub repository
+  community.general.flatpak_remote:
+    name: flathub
+    flatpakrepo_url: "https://flathub.org/repo/flathub.flatpakrepo"
+    state: present
+    method: system
+  tags:
+    - applications
+    - flatpak
+    - gnome
+    - repos
 
 - name: Install a Flatpak application
   community.general.flatpak:
     name: org.gnome.Extensions
     state: present
     remote: fedora
-  tags: gnome-extensions
+  tags:
+    - applications
+    - flatpak
+    - gnome
+    - packages
+
+- name: Install a Podman Desktop application
+  community.general.flatpak:
+    name: io.podman_desktop.PodmanDesktop
+    state: present
+    remote: flathub
+  tags:
+    - applications
+    - flatpak
+    - gnome
+    - packages
+    - podman
 
 #- name: Install TopHat Extensions
 #  ansible.builtin.shell:
 #    cmd: gnome-extensions install tophat
-#  tags: gnome-extensions
+#  tags:
+#    - applications
+#    - flatpak
+#    - gnome

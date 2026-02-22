@@ -84,4 +84,14 @@
     - cloud-tools
     - kubernetes
     - redhat
-  
+
+- name: Setup Kerberos
+  become: yes
+  ansible.builtin.get_url:
+    url: https://gitlab.cee.redhat.com/it-iam/system-configs/raw/master/krb5/idm/linux-krb5.conf
+    dest: /etc/krb5.conf
+  register: http_request_result
+  ignore_errors: true
+  tags:
+    - redhat
+    - kerberos

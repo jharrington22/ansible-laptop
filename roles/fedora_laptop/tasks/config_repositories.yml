@@ -26,3 +26,12 @@
   tags:
     - repositories
     - config
+
+- name: RedHat AWS SAML login
+  ansible.builtin.git:
+    repo: 'git@github.com:app-sre/rh-aws-saml-login.git'
+    dest: /home/jamesh/Documents/repos/rh-aws-saml-login
+    update: false
+  tags:
+    - repositories
+    - config
